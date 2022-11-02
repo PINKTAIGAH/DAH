@@ -1,27 +1,81 @@
 import numpy as np
 import pygame, time
 import matplotlib.pyplot as plt
+import scipy.signal as signal
 
-output_rate= 44100
-max_amplitude= np.iinfo(np.int16).max
-def sine_wave(pitch, volume,duration):
-	global output_rate, max_amplitude
-	
-	total_samples= int(output_rate*duration)
-	output_buffer= np.zeros((total_samples, 2), dtype= np.int16)
-	
-	amplitude= int(max_amplitude*volume)
-	
-	wave_step= float(pitch/output_rate)*2*np.pi
-	
-	for i in range(total_samples):
-		output_buffer[i][0]= amplitude*np.sin(i*wave_step)
-		output_buffer[i][1]= amplitude*np.sin(i*wave_step)
-		 
-	return output_buffer
-	
-pygame.mixer.init(frequency= output_rate, channels=2, size= -16)
-sin523= sine_wave(523,1,0.5)
+def sine_wave(pitch, volume, duration):
+    
+    global OUTPUT_RATE, MAX_AMPLITUDE
+
+    total_samples= int(OUTPUT_RATE*duration)
+    t= np.linspace(0, duration, OUTPUT_RATE, endpoint=True)
+    amplitude= int(MAX_AMPLITUDE*volume)
+    
+    output_buffer= np.zeros( (total_samples, 2), dtype= np.int16)
+    signal_array= amplitude*signal.chirp(t, f0=pitch, t1= total_samples, f1= 3*pitch)
+    
+    for i in range(total_samples):
+        output_buffer[i][0]= output_buffer[i][1]= signal_array[i]
+        
+
+    return output_buffer
+
+def sawtooth_wave(pitch, volume, duration):
+    
+    global OUTPUT_RATE, MAX_AMPLITUDE
+
+    total_samples= int(OUTPUT_RATE*duration)
+    t= np.linspace(0, duration, OUTPUT_RATE, endpoint=True)
+    amplitude= int(MAX_AMPLITUDE*volume)
+    
+    output_buffer= np.zeros( (total_samples, 2), dtype= np.int16)
+    signal_array= amplitude*signal.sawtooth(2*np.pi*pitch*t)
+    
+    for i in range(total_samples):
+        output_buffer[i][0]= output_buffer[i][1]= signal_array[i]
+        
+
+    return output_buffer
+
+def square_wave(pitch, volume, duration):
+    
+    global OUTPUT_RATE, MAX_AMPLITUDE
+
+    total_samples= int(OUTPUT_RATE*duration)
+    t= np.linspace(0, duration, OUTPUT_RATE, endpoint=True)
+    amplitude= int(MAX_AMPLITUDE*volume)
+    
+    output_buffer= np.zeros( (total_samples, 2), dtype= np.int16)
+    signal_array= amplitude*signal.square(2*np.pi*pitch*t)
+    
+    for i in range(total_samples):
+        output_buffer[i][0]= output_buffer[i][1]= signal_array[i]
+        
+
+    return output_buffer
+
+def triangle_wave(pitch, volume, duration):
+    
+    global OUTPUT_RATE, MAX_AMPLITUDE
+
+    total_samples= int(OUTPUT_RATE*duration)
+    t= np.linspace(0, duration, OUTPUT_RATE, endpoint=True)
+    amplitude= int(MAX_AMPLITUDE*volume)
+    
+    output_buffer= np.zeros( (total_samples, 2), dtype= np.int16)
+    signal_array= amplitude*signal.sawtooth(2*np.pi*pitch*t, 0.5)
+    
+    for i in range(total_samples):
+        output_buffer[i][0]= output_buffer[i][1]= signal_array[i]
+        
+
+    return output_buffer
+
+OUTPUT_RATE= 44100
+MAX_AMPLITUDE= np.iinfo(np.int16).max
+pygame.mixer.init(frequency= OUTPUT_RATE, channels=2, size= -16)
+
+sin523= triangle_wave(523,0.5,1)
 plt.plot(sin523[0:100])
 plt.show()
 
