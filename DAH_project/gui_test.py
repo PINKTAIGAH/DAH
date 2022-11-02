@@ -46,7 +46,9 @@ def main_menu():
                 time.sleep(1)                
         pygame.draw.rect(screen, (255, 0, 0), button_1)
         pygame.draw.rect(screen, (255, 0, 0), button_2)
- 
+        draw_text('Triangle Wave', font, (255, 255, 255), screen, 100, 115)
+        draw_text('Square Wave', font, (255, 255, 255), screen, 100, 215)
+        
         click = False
         for event in pygame.event.get():
             if event.type == QUIT:
