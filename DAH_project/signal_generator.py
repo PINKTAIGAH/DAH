@@ -3,6 +3,9 @@ import time
 import matplotlib.pyplot as plt
 import scipy.signal as signal
 
+OUTPUT_RATE= 44100
+MAX_AMPLITUDE= np.iinfo(np.int16).max
+
 def sine_wave(pitch, volume, duration):
     
     global OUTPUT_RATE, MAX_AMPLITUDE
