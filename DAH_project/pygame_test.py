@@ -1,7 +1,6 @@
 import numpy as np
 import pygame, time
 import matplotlib.pyplot as plt
-import scipy.signal as signal
 from signal_generator import *
 
 
