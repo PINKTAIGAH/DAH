@@ -1,12 +1,18 @@
 import pygame, sys
 from pygame.locals import * 
+from signal_generator import *
+import matplotlib.pyplot as plt
 
 pygame.init()
 pygame.display.set_caption('game base')
 
-screen = pygame.display.set_mode((500, 500),0,32)
+WIDTH, HEIGHT = 500, 500
+screen = pygame.display.set_mode((WIDTH, HEIGHT),0,32)
 main_clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 20)
+OUTPUT_RATE= 44100
+MAX_AMPLITUDE= np.iinfo(np.int16).max
+pygame.mixer.init(frequency= OUTPUT_RATE, channels=2, size= -16)
 click = False
 
 def draw_text(text, font, color, surface, x, y):
@@ -28,10 +34,16 @@ def main_menu():
         button_2 = pygame.Rect(50, 200, 200, 50)
         if button_1.collidepoint((mx, my)):
             if click:
-                game()
+                triag523= triangle_wave(523,0.2,1)
+                note= pygame.mixer.Sound(buffer= triag523)
+                note.play()
+                time.sleep(1)
         if button_2.collidepoint((mx, my)):
             if click:
-                options()
+                square523= square_wave(523,0.2,1)
+                note= pygame.mixer.Sound(buffer= square523)
+                note.play()
+                time.sleep(1)                
         pygame.draw.rect(screen, (255, 0, 0), button_1)
         pygame.draw.rect(screen, (255, 0, 0), button_2)
  
