@@ -1,5 +1,5 @@
 import numpy as np
-import pygame, time, math
+import pygame, time
 import matplotlib.pyplot as plt
 
 output_rate= 44100
@@ -12,7 +12,7 @@ def sine_wave(pitch, volume,duration):
 	
 	amplitude= int(max_amplitude*volume)
 	
-	wave_step= float(pitch/output_rate)*2*math.pi
+	wave_step= float(pitch/output_rate)*2*np.pi
 	
 	for i in range(total_samples):
 		output_buffer[i][0]= amplitude*np.sin(i*wave_step)
