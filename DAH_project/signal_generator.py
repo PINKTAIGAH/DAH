@@ -73,3 +73,17 @@ def triangle_wave(pitch, volume, duration):
         
 
     return output_buffer
+
+def noise_wave(pitch, volume, duration):
+    
+    total_samples= int(OUTPUT_RATE*duration)
+    t= np.linspace(0, duration, OUTPUT_RATE, endpoint=True)
+    amplitude= int(MAX_AMPLITUDE*volume)
+
+    output_buffer= np.zeros( (total_samples, 2), dtype= np.int16)
+    signal_array= amplitude*np.random.normal(0,0.5, total_samples)
+
+    for i in range(total_samples):
+        output_buffer[i][0]= output_buffer[i][1]= signal_array[i]
+
+    return output_buffer

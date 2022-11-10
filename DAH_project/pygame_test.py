@@ -8,7 +8,7 @@ OUTPUT_RATE= 44100
 MAX_AMPLITUDE= np.iinfo(np.int16).max
 pygame.mixer.init(frequency= OUTPUT_RATE, channels=2, size= -16)
 
-sin523= triangle_wave(523,0.5,1)
+sin523= noise_wave(523,0.1,0.1)
 plt.plot(sin523[0:100])
 plt.show()
 
