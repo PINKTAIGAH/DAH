@@ -17,6 +17,7 @@ while True:
     port_state= bin(mcp.portRead())
     port_state= [int(x) for x in str(port_state[2:])]
     port_state= port_state[::-1]
+    print(port_state)
     down_state= buttons_pressed(port_state[:-2])
     print(down_state)
 
