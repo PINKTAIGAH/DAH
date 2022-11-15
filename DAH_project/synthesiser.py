@@ -10,16 +10,19 @@ def clear_screen():
 
 def create_wave(frequency, waveform_index):
 	if waveform_index == 0:
-		wave= sine_wave(frequency,VOLUME, DURATION)
+		wave= sine_wave(frequency, VOLUME, DURATION)
 		
 	elif waveform_index == 1:
-		wave= sawtooth_wave(frequency,VOLUME, DURATION)
+		wave= sawtooth_wave(frequency, VOLUME, DURATION)
 		
 	elif waveform_index == 2:
-		wave= triangle_wave(frequency,VOLUME, DURATION)
+		wave= triangle_wave(frequency, VOLUME, DURATION)
 		
 	elif waveform_index == 3:
-		wave= square_wave(frequency,VOLUME, DURATION)
+		wave= square_wave(frequency, VOLUME, DURATION)
+	
+	elif waveform_index == 4:
+		wave= noise_wave(frequency, VOLUME, DURATION)
 	
 	note= pygame.mixer.Sound(buffer= wave)
 	return note
@@ -48,7 +51,7 @@ def check_waveform_state(i):
     if pcf.digitalRead(BUTTON_WAVE)==0:
         i+=1
         time.sleep(0.5)
-        if i==4:
+        if i==5:
             i=0
     return i 
                 
@@ -80,11 +83,11 @@ O8=[4186,4435,4699,4978,5274,5588,5920,6272,6645,7040,7459,7902]
 BUTTON_FREQ= np.array([O0,O1,O2,O3,O4,O5,O6,O7,O8])
 BUTTON_OCTAVE=1
 BUTTON_WAVE=0
-DURATION= 0.05
-VOLUME= 0.1
+DURATION= 0.5
+VOLUME= 0.5
 OUTPUT_RATE= 44100
 MAX_AMPLITUDE= np.iinfo(np.int16).max
-WAVEFORM= ['SINE', 'SAWTOOTH', 'TRIANGLE', 'SQUARE']
+WAVEFORM= ['SINE', 'SAWTOOTH', 'TRIANGLE', 'SQUARE', 'Noise']
 
 pygame.mixer.init(frequency= OUTPUT_RATE, channels=2, size= -16)
 
