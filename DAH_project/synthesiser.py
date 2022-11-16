@@ -58,10 +58,10 @@ def check_waveform_state(i):
 def main():
     waveform_index, octave_index= 0,0
     while True:
-        port_state= bin(mcp.portRead())
-        port_state= [int(x) for x in str(port_state[2:])]
+        port_state= bin(mcp.portRead())[2:].zfill(NOTE_BUTTON_NUMBER)
+        port_state= [int(x) for x in str(port_state)]
         port_state= port_state[::-1]
-        down_state= buttons_pressed(port_state[:-2])
+        down_state= buttons_pressed(port_state)
         notes= [create_wave(BUTTON_FREQ[octave_index][x],waveform_index) for x in down_state]
         play_notes(notes)
         octave_index= check_octave_state(octave_index)
@@ -81,6 +81,7 @@ O6=[1047,1109,1175,1245,1319,1397,1480,1568,1661,1760,1865,1976]
 O7=[2093,2217,2349,2489,2637,2794,2960,3136,3322,3520,3729,3951]
 O8=[4186,4435,4699,4978,5274,5588,5920,6272,6645,7040,7459,7902]
 BUTTON_FREQ= np.array([O0,O1,O2,O3,O4,O5,O6,O7,O8])
+NOTE_BUTTON_NUMBER= 11
 BUTTON_OCTAVE=1
 BUTTON_WAVE=0
 DURATION= 0.5
