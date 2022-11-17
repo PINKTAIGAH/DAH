@@ -3,10 +3,7 @@ import pygame, time, lcd
 from DAH import MCP23S17
 from DAH import PCF8574
 from signal_generator import *
-import time
-
-def clear_screen():
-	lcd.lcd_byte(0x01, lcd.LCD_CMD)
+from lcd import *
 
 def create_wave(frequency, waveform_index):
 	if waveform_index == 0:
@@ -54,6 +51,12 @@ def check_waveform_state(i):
         if i==5:
             i=0
     return i 
+    
+def lcd_print(waveform_index, octave_index):
+	lcd_line_1= f'Wave : {WAVEFORM[waveform_index]}'
+	lcd_line_2= f'\nOctave: {octave_index}'
+	lcd.clear()
+	lcd.message = lcd_line_1 + lcd_line_2
                 
 def main():
     waveform_index, octave_index= 0,0
@@ -66,7 +69,7 @@ def main():
         play_notes(notes)
         octave_index= check_octave_state(octave_index)
         waveform_index= check_waveform_state(waveform_index)
-        print(f'Waveform : {WAVEFORM[waveform_index]}, Octave: {octave_index}')
+        lcd_print(waveform_index, octave_index)
         time.sleep(0.05)
     
 pcf= PCF8574(address= 0x38)
@@ -88,10 +91,10 @@ DURATION= 0.5
 VOLUME= 0.5
 OUTPUT_RATE= 44100
 MAX_AMPLITUDE= np.iinfo(np.int16).max
-WAVEFORM= ['SINE', 'SAWTOOTH', 'TRIANGLE', 'SQUARE', 'Noise']
+WAVEFORM= ['SINE', 'SAWTOOTH', 'TRIANGLE', 'SQUARE', 'NOISE']
 
 pygame.mixer.init(frequency= OUTPUT_RATE, channels=2, size= -16)
-
+lcd= lcd_init()
 
 
 if __name__ == '__main__':
@@ -100,10 +103,6 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         pass
     finally:
-        lcd.GPIO.cleanup()
-        print('Program Terminated')
-        
-            
-
-
+	    lcd.clear()
+	    print('program Terminated')
 
