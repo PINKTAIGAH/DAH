@@ -67,7 +67,7 @@ def buttons_pressed(port_state):
         if port_state[i]== 0:
             index.append(i)
     return(index)
-
+3
 def poll_buttons():
 	port_state= bin(MCP.portRead())[2:].zfill(BUTTON_NUMBER)
 	port_state= [int(x) for x in str(port_state)]
@@ -85,13 +85,15 @@ def button_customize(button_param):
 		time.sleep(1)
 		polled_param= poll_potentiometer()
 		waveform_index= check_waveform_state(waveform_index)
-		selected_button_index= poll_buttons()[0] 
-		running= check_exit_state()
+		selected_button_index= poll_buttons() 
+		print(selected_button_index)
+		click= check_exit_state()
 		print(list((waveform_index, *polled_param)))
-		if running== False:
-			button_param[selected_button_index]= (waveform_index, *polled_param)
+		if click== False:
+			button_param[selected_button_index[0]]= (waveform_index, *polled_param)
 			break
 		time.sleep(0.05)
+
 	return button_param
 				
 def main():
