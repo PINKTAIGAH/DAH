@@ -53,9 +53,8 @@ def check_waveform_state(i):
     return i 
     
 def lcd_print(waveform_index, octave_index):
-	lcd_line_1= f'Wave : {WAVEFORM[waveform_index]}'
+	lcd_line_1= f'Wave : {WAVEFORM[waveform_index]}     '
 	lcd_line_2= f'\nOctave: {octave_index}'
-	lcd.clear()
 	lcd.message = lcd_line_1 + lcd_line_2
                 
 def main():
